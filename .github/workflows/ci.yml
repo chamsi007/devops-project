@@ -1,0 +1,21 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Build Docker
+        run: docker build -t devops-app .
+
+      - name: Run container
+        run: docker run -d -p 8080:80 devops-app
+
+      - name: Test app
+        run: curl http://localhost:8080
